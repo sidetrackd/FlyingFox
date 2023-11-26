@@ -1,47 +1,49 @@
-# Workflow to publish Godot HTML5 games to GitHub Pages
-#
-# Make sure your project is configured for Web export
-# to the path `build/web`.
-
-name: 'Publish to GitHub Pages'
-
-env:
-  GODOT_VERSION: 4.1.3 # Remember to manually set image to this version below.
-
+name: "godot-ci export"
 on:
   workflow_dispatch:
   push:
     branches:
       - master
 
+env:
+  GODOT_VERSION: 4.1.3
+  PROJECT_PATH: src
+  
 jobs:
-  deploy:
+  export-web:
+    name: Web Export
     runs-on: ubuntu-latest
-
     container:
       image: barichello/godot-ci:4.1.3
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Move HTML5 templates into position
+        with:
+          lfs: true
+      - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/templates
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/templates/${GODOT_VERSION}.stable
-
-      - name: Create staging directory
-        run: mkdir -v -p build/web
-
-      - name: Build
-        run: godot --headless -v --export-release "HTML5" build/web/index.html
-
-      - name: Deploy
+      - name: Web Build
+        run: |
+          mkdir -v -p build/web
+          cd $PROJECT_PATH
+          godot -v --export-release "HTML5" ../build/web/index.html
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: web
+          path: build/web
+      - name: Install rsync 📚
+        run: |
+          apt-get update && apt-get install -y rsync
+      - name: Deploy to GitHub Pages 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web
+          publish_dir: build/web
           force_orphan: true
           user_name: 'github-ci[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: 'Publish to gh-pages'
+  
