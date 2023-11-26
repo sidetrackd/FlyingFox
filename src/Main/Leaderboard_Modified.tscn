@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=3 uid="uid://dswksb0rgybdf"]
+
+[ext_resource type="Script" path="res://addons/silent_wolf/Scores/Leaderboard.gd" id="1_kdag3"]
+[ext_resource type="PackedScene" uid="uid://bfpcwdxh7nb3b" path="res://Main/Background.tscn" id="2_0abr6"]
+[ext_resource type="StyleBox" uid="uid://b2nvujntkciaj" path="res://Main/menustyle.tres" id="3_6kugt"]
+[ext_resource type="Theme" uid="uid://d2eakbmaefnt6" path="res://addons/silent_wolf/assets/themes/sw_theme.tres" id="4_tovo4"]
+[ext_resource type="PackedScene" uid="uid://clllbf6am8qdf" path="res://addons/silent_wolf/common/SWButton.tscn" id="5_rlqmy"]
+
+[sub_resource type="Theme" id="Theme_j1gah"]
+
+[node name="Leaderboard" type="Node2D"]
+script = ExtResource("1_kdag3")
+
+[node name="BG" parent="." instance=ExtResource("2_0abr6")]
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 344.0
+offset_top = 36.0
+offset_right = 1368.0
+offset_bottom = 919.0
+theme_override_styles/panel = ExtResource("3_6kugt")
+
+[node name="OldBoard" type="MarginContainer" parent="."]
+visible = false
+
+[node name="HighScores" type="TextureRect" parent="OldBoard"]
+layout_mode = 2
+
+[node name="Board" type="VBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 218.0
+offset_top = 54.0
+offset_right = 1495.0
+offset_bottom = 539.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("4_tovo4")
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="TitleContainer" type="CenterContainer" parent="Board"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Board/TitleContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 72
+text = "Leaderboard"
+horizontal_alignment = 1
+
+[node name="MessageContainer" type="CenterContainer" parent="Board"]
+visible = false
+layout_mode = 2
+
+[node name="TextMessage" type="Label" parent="Board/MessageContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Loading scores..."
+
+[node name="HighScores" type="CenterContainer" parent="Board"]
+layout_mode = 2
+theme = SubResource("Theme_j1gah")
+
+[node name="ScoreItemContainer" type="VBoxContainer" parent="Board/HighScores"]
+layout_mode = 2
+
+[node name="CloseButtonContainer" type="CenterContainer" parent="Board"]
+layout_mode = 2
+
+[node name="CloseButton" parent="Board/CloseButtonContainer" instance=ExtResource("5_rlqmy")]
+custom_minimum_size = Vector2(600, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Close Leaderboard"
+
+[connection signal="pressed" from="Board/CloseButtonContainer/CloseButton" to="." method="_on_CloseButton_pressed"]
