@@ -272,7 +272,6 @@ shape = SubResource("CapsuleShape2D_611pe")
 position = Vector2(1, -5)
 sprite_frames = SubResource("SpriteFrames_cpb3r")
 animation = &"jump"
-frame = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
@@ -282,7 +281,7 @@ limit_right = 1728
 limit_bottom = 972
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Idle"
 libraries = {
 "": SubResource("AnimationLibrary_1t3tc")
 }
+autoplay = "Idle"

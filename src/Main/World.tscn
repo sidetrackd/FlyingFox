@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://dfxw661v523kb"]
+[gd_scene load_steps=13 format=3 uid="uid://dfxw661v523kb"]
 
 [ext_resource type="Texture2D" uid="uid://dcc5i8kqjl1av" path="res://Textures/environment/tileset.png" id="1_xlqdx"]
 [ext_resource type="PackedScene" uid="uid://bfpcwdxh7nb3b" path="res://Main/Background.tscn" id="2_wldks"]
 [ext_resource type="PackedScene" uid="uid://bxfropib1f2mq" path="res://Player/player.tscn" id="3_xdkb3"]
 [ext_resource type="StyleBox" uid="uid://b2nvujntkciaj" path="res://Main/menustyle.tres" id="4_by2wv"]
+[ext_resource type="AudioStream" uid="uid://dsbe68u1se13i" path="res://Assets/Audio/platformer_level03_loop.ogg" id="5_41m4s"]
 
 [sub_resource type="GDScript" id="GDScript_aro1h"]
 script/source = "extends Node2D
@@ -17,8 +18,8 @@ func _on_resume_pressed():
 	$HUD/PauseMenu.hide()
 
 func _on_quit_pressed():
-	get_tree().change_scene_to_file(\"res://main.tscn\")
 	get_tree().paused = false
+	get_tree().change_scene_to_file(\"res://main.tscn\")	
 "
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_47mok"]
@@ -652,6 +653,10 @@ offset_bottom = -49.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Quit"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_41m4s")
+autoplay = true
 
 [connection signal="timeout" from="Mob/Timer" to="Mob" method="_on_timer_timeout"]
 [connection signal="timeout" from="Collectibles/Timer" to="Collectibles" method="_on_timer_timeout"]
