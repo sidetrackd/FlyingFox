@@ -1,0 +1,10 @@
+name: flying-fox
+services:
+  httpd:
+    image: httpd:2.4
+    build: build/web
+    ports: 
+      - '8080:80'
+    volumes:
+      - ./build/web:/usr/local/apache2/htdocs
+      - ./my-httpd.conf:/usr/local/apache2/conf/httpd.conf
